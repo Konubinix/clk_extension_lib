@@ -1,0 +1,33 @@
+#!/bin/bash -eu
+
+source "_clk.sh"
+
+clk_usage () {
+    cat<<EOF
+$0
+
+Repeat the same pattern over and over.
+
+Like yes, but allow providing a number of times the pattern is repeated.
+--
+A:pattern:str:The thing to repeat
+O:-n,--number:int:Number of repetitions
+EOF
+}
+
+clk_help_handler "$@"
+yes "${CLK___PATTERN}" | {
+    if [ "${CLK___NUMBER}" == "" ]
+    then
+        cat
+    else
+        i=1
+        while [ $i -le ${CLK___NUMBER} ]
+        do
+            i=$((i+1))
+            read line
+            echo "${line}"
+        done
+    fi
+
+}
